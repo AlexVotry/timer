@@ -11,7 +11,7 @@ function multiTimer() {
   var elapsedSec = 0;
   var startTime;
 
-  
+
 
   function startTimer() {
     startTime = setInterval(timer, 1000);
@@ -47,3 +47,17 @@ function multiTimer() {
     clearInterval(startTime);
   }
 }
+
+function Job(id, name, date, hr, min, sec) {
+  this.id = id;
+  this.name = name;
+  this.hr = hr;
+  this.min = min;
+  this.sec = sec;
+}
+
+var job1 = new Job ();
+
+Job.prototype.addTime = function () {
+
+};
