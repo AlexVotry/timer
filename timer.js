@@ -11,6 +11,7 @@ function multiTimer() {
   var elapsedSec = 0;
   var startTime;
   var id = 0;
+  var jobId = [];
   var task = new Firebase('https://flickering-torch-237.firebaseio.com/');
 
   $('#addIt').on('click', function(e) {
@@ -25,41 +26,33 @@ function multiTimer() {
         id: id,
         name: name,
     }});
-    name = '';
+    $('#job').val() = '';
   });
 
+  // task.on('child_added', function(data) {
+  //   var jobs = data.val();
+  //   changeName(jobs.job.id, jobs.job.name);
+  //   // checkTime(job.hour, job.minute);
+  //   console.log(jobs.job.name);
+  // });
   task.on('child_added', function(data) {
-    var jobs = data.val();
-    changeName(jobs.job.id, jobs.job.name);
-    // checkTime(job.hour, job.minute);
-    console.log(jobs.job.name);
-  });
-
+    var jobs = job.data.val();
+    changeName(jobs.id, jobs.name);
+    for (var i = 0; i < data.length; i++) {
+      id = data[i].val();
+      console.log(id);
+    }
+  })
   function changeName(id, name) {
     $('#jobList').append(`<button id="job${id}" class="col-xs-6 btn btn-lg color${id}">${name}</button>
     <button class="col-xs-2 col-xs-offset-4 btn btn-lg color${id}">edit</button>`);
-    // $('#timerDisplay').append(
-    //   `<input class="col-xs-3" type="number" id="hrDisplay${id}" value="${job.hour}">`
-    //   `<input class="col-xs-3" type="number" id="minDisplay${id}" value="${job.minute}"`);
+
+    $('#timerDisplay').append(`<input type="text" name="secs" id="secs${id}" class="col-xs-2"></input>`);
     }
 
   function checkTime(hr, min, id) {
     $('#timerDisplay')
   }
-  // function Job(id, name, date, hr, min, sec) {
-  //   this.id = id;
-  //   this.name = name;
-  //   this.hr = hr;
-  //   this.min = min;
-  //   this.sec = sec;
-  // }
-
-  // var job1 = new Job (1, );
-  // var job1Name = $('#job1Name').val();
-  // Job.prototype.timer = function () {
-  //
-  // };
-
 
   function startTimer() {
     startTime = setInterval(timer, 1000);
@@ -89,6 +82,10 @@ function multiTimer() {
       }
     }
     document.getElementById('secs').value = elapsedSec;
+    document.getElementById('mins').value = elapsedMns;
+    document.getElementById('hrs').value = elapsedHrs;
+    $('#timerDisplay').append(`<input type="text" name="secs" id="secs${id}" class="col-xs-2"></input>`);
+
     $('#timerDisplay').text(`${today.getDay()}  ${elapsedHrs} : ${elapsedMns} : ${elapsedSec}`);
   }
 $('#submit').on('click', function() {
@@ -101,6 +98,21 @@ $('#submit').on('click', function() {
 
 
 // **********************************
+
+// function Job(id, name, date, hr, min, sec) {
+//   this.id = id;
+//   this.name = name;
+//   this.hr = hr;
+//   this.min = min;
+//   this.sec = sec;
+// }
+
+// var job1 = new Job (1, );
+// var job1Name = $('#job1Name').val();
+// Job.prototype.timer = function () {
+//
+// };
+
 
 // var myDataRef = new Firebase('https://flickering-torch-237.firebaseio.com/#');
 //
