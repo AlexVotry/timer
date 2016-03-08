@@ -1,9 +1,20 @@
-getDate()	Get the day as a number (1-31)
-getDay()	Get the weekday as a number (0-6)
-getFullYear()	Get the four digit year (yyyy)
-getHours()	Get the hour (0-23)
-getMilliseconds()	Get the milliseconds (0-999)
-getMinutes()	Get the minutes (0-59)
-getMonth()	Get the month (0-11)
-getSeconds()	Get the seconds (0-59)
-getTime()	Get the time (milliseconds since January 1, 1970)
+.color0 {
+  background-color:	#8A2BE2;
+}
+.color1 {
+  background-color: #F2B429;
+}
+.color2 {
+  background-color: #00ffff;
+}
+.color3 {
+  background-color: #8FBC8F;
+}
+.color4 {
+  background-color: #8B008B;
+}
+#timerDisplay {
+  color: red;
+  font-size: 18px;
+  font-style: bold;
+}
