@@ -77,8 +77,8 @@ function multiTimer() {
   }
 
   $('#addIt').on('click', function(e) {
-    var job = $('#job').val();
-    var logTime = new JobTime(logDate, 0, 0, 0, job);
+    var name = $('#job').val();
+    var logTime = new JobTime(logDate, 0, 0, 0, name);
     task.push(logTime);
   });
 
@@ -99,9 +99,9 @@ function multiTimer() {
   function addTimeDisplay(job, fireId) {
     $('#jobTimeDisplay').append(
       `<label class="col-xs-6">${job}:  </label>
-      <input type="number" name="hrs" id="hrs${fireId}" class="col-xs-2 hrsInput" min='0'  value=0></input>
-      <input type="number" name="min" id="mins${fireId}" class="col-xs-2 minInput" min='0' max='59' value=0></input>
-      <input type="number" name="secs" id="secs${fireId}" class="col-xs-2 secInput min='0' max='59'" value=0></input>`);
+      <input type="number" name="hrs" id="hrs${fireId}" class="col-xs-2 hrsInput" value=0></input>
+      <input type="number" name="min" id="mins${fireId}" class="col-xs-2 minInput" value=0></input>
+      <input type="number" name="secs" id="secs${fireId}" class="col-xs-2 secInput" value=0></input>`);
     }
   function addCompareBars(job, id, fireId) {
     $('.bars').append(
@@ -199,8 +199,6 @@ function multiTimer() {
           refDate.push({'jobDate': logDate, 'hr': hours, 'min': minutes, 'sec': seconds})
         }
       }
-      console.log(allJobs.date.jobDate);
-      console.log(jobId);
     });
   }
   function changeDate() {
