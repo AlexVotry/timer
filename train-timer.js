@@ -77,8 +77,8 @@ function multiTimer() {
   }
 
   $('#addIt').on('click', function(e) {
-    var name = $('#job').val();
-    var logTime = new JobTime(logDate, 0, 0, 0, name);
+    var job = $('#job').val();
+    var logTime = new JobTime(logDate, job, 0);
     task.push(logTime);
   });
 
@@ -99,9 +99,9 @@ function multiTimer() {
   function addTimeDisplay(job, fireId) {
     $('#jobTimeDisplay').append(
       `<label class="col-xs-6">${job}:  </label>
-      <input type="number" name="hrs" id="hrs${fireId}" class="col-xs-2 hrsInput" value=0></input>
-      <input type="number" name="min" id="mins${fireId}" class="col-xs-2 minInput" value=0></input>
-      <input type="number" name="secs" id="secs${fireId}" class="col-xs-2 secInput" value=0></input>`);
+      <input type="number" name="hrs" id="hrs${fireId}" class="col-xs-2 hrsInput" min='0' value=0></input>
+      <input type="number" name="min" id="mins${fireId}" class="col-xs-2 minInput" min='0' max='59' value=0></input>
+      <input type="number" name="secs" id="secs${fireId}" class="col-xs-2 secInput" min='0' max='59' value=0></input>`);
     }
   function addCompareBars(job, id, fireId) {
     $('.bars').append(
@@ -179,32 +179,41 @@ function multiTimer() {
     indivTime = 0;
   }
 
+
   function origColor(e, jobId) {
     var forNow = e.target.id;
     var colorBack = document.getElementById(forNow);
     var job = colorBack.textContent;
     colorBack.classList.remove('onColor');
   }
-  function addTimeToDatabase(jobId, hours, minutes, seconds) {
+
+  function addTimeToDatabase() {
     task.on("child_added", function(data) {
+      getIndivTime();
+      getIndivId();
       var allJobs = data.val();
       var jobKey = data.key();
-      var refDate = task.child(jobId).child('date');
-      var refJob = task.child(jobId);
-      if (jobKey === jobId) {
-        if (allJobs.date.jobDate === logDate) {
-          refDate.update({'hr': hours, 'min': minutes, 'sec': seconds});
-        }
-        else {
-          refDate.push({'jobDate': logDate, 'hr': hours, 'min': minutes, 'sec': seconds})
-        }
-      }
+      // var refDate = task.child(jobId).child('date');
+      // var refJob = task.child(jobId);
+      console.log(activeFireId);
+      console.log(indivTotals);
+      console.log(allJobs.date);
+      // for (var i = 0; i < activeFireId.length-1; i++) {
+      //   if (jobKey === activeFireId[i]) {
+      //     if (allJobs.jobDate === logDate) {
+      //       refDate.update({'hr': hours, 'min': minutes, 'sec': seconds});
+      //     }
+      //     else {
+      //       refDate.push({newDate: {'hr': hours, 'min': minutes, 'sec': seconds}})
+      //     }
+      //   }
+      // }
     });
   }
   function changeDate() {
     var newDate = $('#dateInput').val();
     $('#todayDate').text(newDate);
-    // addTimeToDatabase();
+    addTimeToDatabase();
 //     var newTimes = timeValue.split(',');
 //     task.on("child_added", function(data) {
 //       getIndivTime();
