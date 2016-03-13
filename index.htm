@@ -7,7 +7,7 @@
     <title>Multi-timer</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="timer.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="timer.css" media="screen" title="no title">
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   </head>
@@ -21,7 +21,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"> <h2>MultiTimer<h2> </a>
+          <div class="navbar-brand" href="#"> <h2>MultiTimer<h2> </div>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -37,7 +37,7 @@
       <div class="container">
         <div class="rows col-xs-12">
           <span id="todayDate" class"col-xs-4 col-xs-offset-7"></span>
-          <span id="timerDisplay" class="col-xs-4"></span>
+          <span id="timerDisplay" class="col-xs-8"></span>
         </div>
 
         <div id="jobList" class="col-xs-6">
@@ -58,13 +58,13 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Enter your job name:  </h4>
+                <h4 class="modal-title">Enter your job(s) name:  </h4>
               </div>
               <div class="modal-body">
-                <input id="job" type="text" name="name" placeholder="Job Name" autofocus />
+                <input id="jobInput" type="text" name="name" placeholder="Job Name" autofocus/>
               </div>
               <div class="modal-footer">
-                <button id="addIt" type="button" class="btn btn-warning" data-dismiss="modal">Add it! </button>
+                <button id="addIt" type="button" class="btn btn-warning" data-dismiss="modal">close it! </button>
               </div>
             </div>
           </div>
@@ -107,15 +107,10 @@
         <div id="jobList" class="col-xs-12">
           <!-- add job buttons -->
         </div>
-          <div  id="timerDisplay" class="col-xs-12">timer</div>
-          <input type="text" name="secs" id="secs" class="col-xs-2"></input>
-        <span class="col-xs-3 hours"></span><span class="col-xs-3 minutes"></span><span class="col-xs-3 seconds"></span>
-      </div>
-      <a href="add-job.htm"><button class="col-xs-12 btn btn-lg btn-warning">Add a job</button></a>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-    <script src="timer.js"></script>
+    <script src="timer2.js"></script>
   </body>
 </html>
