@@ -1,108 +1,108 @@
-(function(){
-  $(document).ready(function(){
+(function loadBootstrap() {
+  $(document).ready(function () {
     multiTimer();
-  })
+  });
 })();
 
-function multiTimer() {
-  var thisDay, date, logDate, hrId, minId, secId, newDate;
-  var today = new Date();
-  var elapsedHrs = 0;
-  var elapsedMns = 0;
-  var elapsedSec = 0;
-  var startTime;
-  var indivTime = 0;
-  var totalTime = 0;
-  var totalHrs = 0;
-  var totalMins = 0;
-  var totalSecs = 0;
-  var id = 0;
-  var jobS = 0;
-  var job1 = 0;
-  var timeValue = [];
-  var indivTotals = [];
-  var activeFireId = [];
-  var task = new Firebase('https://flickering-torch-237.firebaseio.com/');
-  // const job1 = document.getElementsByClassName('progress-bar')[0];
+(function multiTimer() {
+  'use strict';
+  let thisDay;
+  let date;
+  let logDate;
+  let hrId;
+  let minId;
+  let secId;
+  let newDate;
+  const today = new Date();
+  const jobField = $('#jobInput');
+  let elapsedHrs = 0;
+  let elapsedMns = 0;
+  let elapsedSec = 0;
+  let startTime;
+  let totalTime = 0;
+  let totalHrs = 0;
+  let totalMins = 0;
+  let totalSecs = 0;
+  let id = 0;
+  let timeValue = [];
+  let indivTotals = [];
+  let activeFireId = [];
+  const task = new Firebase('https://flickering-torch-237.firebaseio.com/');
+
   $.fn.toggleClick = function () {
-    var functions = arguments;
+    const functions = arguments;
     return this.each(function () {
-      var iteration = 0;
+      let iteration = 0;
       $(this).click(function () {
-        functions[iteration].apply(this, arguments)
-        iteration = (iteration + 1) % functions.length
-      })
-    })
-  }
+        functions[iteration].apply(this, arguments);
+        iteration = (iteration + 1) % functions.length;
+      });
+    });
+  };
 
   function readableDate() {
     // var thisDay = '';
-    var numDay = today.getDay();
+    const numDay = today.getDay();
     switch (numDay) {
       case 0:
-       thisDay = "Sunday";
+        thisDay = 'Sunday';
         break;
       case 1:
-       thisDay = "Monday";
+        thisDay = 'Monday';
         break;
       case 2:
-       thisDay = "Tuesday";
+        thisDay = 'Tuesday';
         break;
       case 3:
-       thisDay = "Wednesday";
+        thisDay = 'Wednesday';
         break;
       case 4:
-       thisDay = "Thursday";
+        thisDay = 'Thursday';
         break;
       case 5:
-       thisDay = "Friday";
+        thisDay = 'Friday';
         break;
       default:
-       thisDay = "Saturday";
+        thisDay = 'Saturday';
     }
-    date = thisDay + '  ' + (Number(today.getMonth())+1) +'/' + today.getDate();
-    logDate = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
+    date = thisDay + '  ' + ('0' + (Number(today.getMonth()) + 1)).slice(-2) + '/';
+    date += ('0' + (today.getDate())).slice(-2);
+    logDate = today.getFullYear() + '-' + ('0' + (Number(today.getMonth()) + 1)).slice(-2);
+    logDate += '-' + ('0' + (today.getDate())).slice(-2);
   }
-
   readableDate();
 
-  function JobTime(jobDate, hr, min, sec, job) {
-    this.ajob = job;
-    this.date = {
-      jobDate: jobDate,
-      hr: hr,
-      min: min,
-      sec: sec
-    }
-  }
+  jobField.keypress(function (e) {
+    if (e.keyCode === 13) {
+      const name = jobField.val();
 
-  $('#addIt').on('click', function(e) {
-    var name = $('#job').val();
-    var logTime = new JobTime(logDate, 0, 0, 0, name);
-    task.push(logTime);
+      task.push({ job: name });
+      jobField.val('');
+    }
   });
 
-  task.on('child_added', function(data) {
-    var jobs = data.val();
-    var fireId = data.key();
+  task.on('child_added', function (data) {
+    const jobs = data.val();
+    const fireId = data.key();
     id += 1;
-    addJob(id, jobs.ajob, fireId);
-    addTimeDisplay(jobs.ajob, fireId);
-    addCompareBars(jobs.ajob, id, fireId);
+    addJob(id, jobs.job, fireId);
+    addTimeDisplay(jobs.job, fireId);
+    addCompareBars(jobs.job, id, fireId);
     getIndivId(fireId);
   });
 
   function addJob(id, job, fireId) {
     $('#jobList').append(`<button type="button" id="job${fireId}" class="col-xs-12 btn btn-lg color${id}">${job}</button>`);
-    $('#editBtn').append(`<button id="edit${fireId}" class="col-xs-4 col-xs-offset-8 btn btn-lg color${id}">Edit</button>`);
+    $('#editBtn').append(`<button id="edit${fireId}" class="col-xs-6 col-xs-offset-5 btn btn-lg color${id}">Edit</button>`);
   }
+
   function addTimeDisplay(job, fireId) {
     $('#jobTimeDisplay').append(
       `<label class="col-xs-6">${job}:  </label>
-      <input type="number" name="hrs" id="hrs${fireId}" class="col-xs-2 hrsInput" value=0></input>
-      <input type="number" name="min" id="mins${fireId}" class="col-xs-2 minInput" value=0></input>
-      <input type="number" name="secs" id="secs${fireId}" class="col-xs-2 secInput" value=0></input>`);
-    }
+      <input type="number" name="hrs" id="hrs${fireId}" class="col-xs-2 hrsInput" value=0 min="0"></input>
+      <input type="number" name="min" id="mins${fireId}" class="col-xs-2 minInput" value=0 min="0" max="59"></input>
+      <input type="number" name="secs" id="secs${fireId}" class="col-xs-2 secInput" value=0 min="0" max="59"></input>`);
+  }
   function addCompareBars(job, id, fireId) {
     $('.bars').append(
       `<label class="col-xs-3">${job}: </label>
@@ -110,21 +110,21 @@ function multiTimer() {
         <span id="bar${fireId}" class="progress-bar progress-bar-success progress-bar-striped active color${id}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">
         </span>
       </div>`
-    )
+    );
   }
 
   function removeJob(e) {
-    var jobId = nailDownId(e);
-    var ref = task.child(jobId);
+    const jobId = nailDownId(e);
+    const ref = task.child(jobId);
     ref.remove();
     document.location.href = '';
   }
 
   function startTimer(e) {
-    var jobId = nailDownId(e);
-    var hrId = document.getElementById("hrs" + jobId).value;
-    var minId = document.getElementById("mins" + jobId).value;
-    var secId = document.getElementById("secs" + jobId).value;
+    const jobId = nailDownId(e);
+    const hrId = document.getElementById("hrs" + jobId).value;
+    const minId = document.getElementById("mins" + jobId).value;
+    const secId = document.getElementById("secs" + jobId).value;
 
     if (secId !== '') {
       elapsedSec += Number(secId);
@@ -141,7 +141,7 @@ function multiTimer() {
   }
 
   function timer() {
-    indivTime += 1;
+    let timerDate = newDate || date;
     elapsedSec += 1;
     if (elapsedSec === 60) {
       elapsedMns += 1;
@@ -151,77 +151,82 @@ function multiTimer() {
         elapsedMns = 0;
       }
     }
-    $('#todayDate').text(date);
+    $('#todayDate').text(timerDate);
     // $('#currentTimer').text(`Current Timer: `);
     $('#timerDisplay').text(`${elapsedHrs} : ${elapsedMns} : ${elapsedSec}`);
   }
 
   function onColor(e) {
-    var forNow = e.target.id
-    var redBtn = document.getElementById(forNow);
+    const forNow = e.target.id;
+    const redBtn = document.getElementById(forNow);
 
     redBtn.classList.add('onColor');
   }
 
   function endTimer(e) {
-    var jobId = nailDownId(e);
+    const jobId = nailDownId(e);
+    let dailyTime = 0;
+    let secs = 0;
+    let mins = 0;
+    let hrs = 0;
     nailDownTime(jobId);
-    var hours = document.getElementById(hrId).value = elapsedHrs;
-    var minutes = document.getElementById(minId).value = elapsedMns;
-    var seconds = document.getElementById(secId).value = elapsedSec;
-    addTimeToDatabase(jobId, hours, minutes, seconds);
+    let hours = document.getElementById(hrId).value = elapsedHrs;
+    let minutes = document.getElementById(minId).value = elapsedMns;
+    let seconds = document.getElementById(secId).value = elapsedSec;
+    secs = Number(seconds) % 60;
+    mins = (Number(minutes) + parseInt(secs / 60, 10)) % 60;
+    hrs = Number(hours) + parseInt(mins / 60, 10);
+    dailyTime += Number(seconds) + (mins*60) + (hrs*3600);
+
+    addTimeToDatabase(jobId, dailyTime);
     origColor(e, jobId);
     clearInterval(startTime);
     dailyCompare();
     elapsedSec = 0;
     elapsedMns = 0;
     elapsedHrs = 0;
-    indivTime = 0;
   }
 
   function origColor(e, jobId) {
-    var forNow = e.target.id;
-    var colorBack = document.getElementById(forNow);
-    var job = colorBack.textContent;
+    const forNow = e.target.id;
+    const colorBack = document.getElementById(forNow);
+    // let job = colorBack.textContent;
     colorBack.classList.remove('onColor');
   }
-  function addTimeToDatabase(jobId, hours, minutes, seconds) {
-    task.on("child_added", function(data) {
-      var allJobs = data.val();
-      var jobKey = data.key();
-      var refDate = task.child(jobId).child('date');
-      var refJob = task.child(jobId);
+
+  function addTimeToDatabase(jobId, dailyTime) {
+    getIndivTime();
+    task.on("child_added", function (data) {
+      const jobKey = data.key();
+      const thisDay = newDate || logDate;
+      const thisDate = new Firebase('https://flickering-torch-237.firebaseio.com/' + jobId + '/' + thisDay);
       if (jobKey === jobId) {
-        if (allJobs.date.jobDate === logDate) {
-          refDate.update({'hr': hours, 'min': minutes, 'sec': seconds});
-        }
-        else {
-          refDate.push({'jobDate': logDate, 'hr': hours, 'min': minutes, 'sec': seconds})
-        }
+        thisDate.update({ totalTime: dailyTime });
       }
     });
   }
+
   function changeDate() {
-    var newDate = $('#dateInput').val();
+    newDate = $('#dateInput').val();
     $('#todayDate').text(newDate);
-    // addTimeToDatabase();
   }
+
   function dailyCompare() {
-    var percentage = [];
+    let percentage = [];
     getTotalTime();
     getIndivTime();
 
-    for (var i = 0; i < activeFireId.length-1; i++) {
-      var barWidth = document.getElementById('bar' + activeFireId[i]);
+    for (let i = 0; i < activeFireId.length-1; i++) {
+      const barWidth = document.getElementById('bar' + activeFireId[i]);
       percentage = parseInt((indivTotals[i]/ totalTime)*100);
       barWidth.style.width = `${percentage}%`;
       barWidth.textContent = `${percentage}%`;
     }
   }
   function getTotalTime() {
-    var sumHrs = 0;
-    var sumMins = 0;
-    var sumSecs = 0;
+    let sumHrs = 0;
+    let sumMins = 0;
+    let sumSecs = 0;
 
     $('.hrsInput').each(function() {
       sumHrs += Number($(this).val());
@@ -233,17 +238,17 @@ function multiTimer() {
       sumSecs += Number($(this).val());
     });
     totalSecs = sumSecs % 60;
-    totalMins = (sumMins + parseInt(sumSecs / 60)) % 60;
-    totalHrs = sumHrs + parseInt(sumMins / 60);
-    totalTime = sumSecs + (sumMins*60) + (sumHrs*3600);
+    totalMins = (sumMins + parseInt(sumSecs / 60, 10)) % 60;
+    totalHrs = sumHrs + parseInt(sumMins / 60, 10);
+    totalTime = sumSecs + (sumMins * 60) + (sumHrs * 3600);
   };
 
   function getIndivId() {
-    var tempId = [];
-    var barId = $( "#jobList button" ).map(function() {
+    let tempId = [];
+    const barId = $('#jobList button').map(function() {
       return this.id;
     }).get();
-    for (var i = 0; i < barId.length; i += 1) {
+    for (let i = 0; i < barId.length; i += 1) {
       tempId += barId[i].slice(-20) + ',';
     }
     activeFireId = tempId.split(',');
@@ -251,34 +256,35 @@ function multiTimer() {
 
   function getIndivTime() {
     indivTotals = [];
-    var tempTotal = [];
-    var len = $('#jobTimeDisplay input').length;
+    let tempTotal = [];
+    let len = $('#jobTimeDisplay input').length;
     timeValue = $('#jobTimeDisplay input').map(function() {
       return $(this).val();
     }).get().join();
-    var times = timeValue.split(',');
+    const times = timeValue.split(',');
 
-    for (var i = 0; i < len; i += 3) {
-      var secs = Number(times[i+2]) % 60;
-      var mins = (Number(times[i+1]) + parseInt(secs / 60)) % 60;
-      var hrs = Number(times[i]) + parseInt(mins / 60);
-      tempTotal += (Number(times[i+2]) + (mins*60) + (hrs*3600)) + ',';
+    for (let i = 0; i < len; i += 3) {
+      let secs = Number(times[i+2]) % 60;
+      let mins = (Number(times[i+1]) + parseInt(secs / 60, 10)) % 60;
+      let hrs = Number(times[i]) + parseInt(mins / 60, 10);
+      tempTotal += (Number(secs) + (mins * 60) + (hrs * 3600)) + ',';
     }
     indivTotals = tempTotal.split(',');
   }
 
   function nailDownId(e) {
-    var forNow = e.target.id;
-    var jobId = forNow.slice(-20);
+    const forNow = e.target.id;
+    const jobId = forNow.slice(-20);
     return jobId;
   }
 
   function nailDownTime(jobId) {
-    hrId = "hrs" + jobId;
-    minId = "mins" + jobId;
-    secId = "secs" + jobId;
+    hrId = 'hrs' + jobId;
+    minId = 'mins' + jobId;
+    secId = 'secs' + jobId;
   }
+
   $('#changeDate').on('click', changeDate);
   $('#jobList').toggleClick(startTimer, endTimer);
   $('#editBtn').on('click', removeJob);
-}
+})();

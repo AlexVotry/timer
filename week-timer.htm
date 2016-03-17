@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>week-timer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="timer.css" media="screen" title="no title" charset="utf-8">
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  </head>
+  <body>
+    <!-- navigation bar -->
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"> <h2>MultiTimer<h2> </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Weekly</a></li>
+            <li><a href="#">Monthly</a></li>
+            <li><a href="#">Edit Jobs</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+      <div class="container">
+        <a href="index.htm"><button type="button" class="col-xs-4 btn btn-sm btn-warning" >Timer</button></a>
+        <button type="button" id="compare" class="col-xs-4 col-xs-offset-2 btn btn-sm btn-info">Compare</button>
+        <button type="button" id="lastWeek" class="col-xs-4 btn btn-sm btn-info">Last Week</button>
+        <button type="button" id="thisWeek" class="col-xs-4 col-xs-offset-2 btn btn-sm btn-info">This Week</button>
+        <table id="weeklyDisplay" class="col-xs-3">
+          <thead id="numId">
+            <tr id="columnHeads">
+              <th>Job</th>
+              <th>Mon</th>
+              <th>Tues</th>
+              <th>Wed</th>
+              <th>Thur</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+            </tr>
+          </thead>
+            <!-- <colgroup id="jobWk">
+            </colgroup> -->
+          <tbody id="dates"> </tbody>
+          <tfoot id="dailyTotals">
+
+              <!-- <td class="box0">2</td>
+              <td class="box0">2</td>
+              <td class="box0">2</td> -->
+
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="weekly bars">
+        <!-- job progress comparisons -->
+      </div>
+      <div class="hidden"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
+    <script src="week.js"></script>
+  </body>
+</html>
